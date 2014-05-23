@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="60" >
+  <meta name=viewport content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="css/index.css">
+<%
+// Need the Array.find method cause its nice
+if (!Array.prototype.find) {
+  Object.defineProperty(Array.prototype, 'find', {
+    enumerable: false,
+    configurable: true,
+    writable: true,
+    value: function(predicate) {
+      if (this == null) {
+        throw new TypeError('Array.prototype.find called on null or undefined');
+      }
+      if (typeof predicate !== 'function') {
+        throw new TypeError('predicate must be a function');
+      }
+      var list = Object(this);
+      var length = list.length >>> 0;
+      var thisArg = arguments[1];
+      var value;
+
+      for (var i = 0; i < length; i++) {
+        if (i in list) {
+          value = list[i];
+          if (predicate.call(thisArg, value, i, list)) {
+            return value;
+          }
+        }
+      }
+      return undefined;
+    }
+  });
+}
+%>
+</head>
+<body>
+  <%
+      var now = moment();
+      var BUSY_FUZZ = 15;
+
+      function timeOrFromNow(d) {
+        var m = moment(d);
+        /* if more than 1 hour use the time */
+        if (m.diff(moment()) > 60 * 60 * 1000) {
+          return " at " + m.format('h:mma');
+        }
+        return m.fromNow();
+      }
+
+      function classAttrs(room) {
+        var vidyo = (room.vidyo)? "vidyo" : "";
+        return [vidyo, room.neighborhood, room.size].map(function (r) { return (r)? r+"-room" : r;}).join(" ");
+      }
+
+      var busyNow = function (fb) { return now.isAfter(fb.start) && now.isBefore(fb.end); };
+      var freeUntil = function (fb) { return now.isBefore(fb.end); };
+
+      var reallyBusy = busy.filter(function (room) {
+        return room.freebusy.some(function (fb) {
+          return now.isAfter(fb.start) && now.isBefore(moment(fb.end).subtract(BUSY_FUZZ, 'minutes'));
+        });
+      });
+
+      var almostFree = busy.filter(function (room) {
+        return room.freebusy.some(function (fb) {
+          return now.isBefore(fb.end) && now.isAfter(moment(fb.end).subtract(BUSY_FUZZ, 'minutes'));
+        });
+      });
+
+      var nextFb = function (room) {
+        var fb = room.freebusy.find(freeUntil);
+        if (fb) {
+          if (now.isAfter(fb.start) && now.isBefore(fb.end)) {
+            return "free " + timeOrFromNow(fb.end);
+          } else if (now.isBefore(fb.end)) {
+            return "busy " + timeOrFromNow(fb.end);
+          }
+        }
+        return "";
+      };
+
+  %>
+  <div class="container-fluid">
+  <h2 class="pull-left"><%= title %></h2>
+  <h2 class="pull-right"><%= moment().format('dddd, MMMM Do') %></h2>
+  <div class="clearfix"></div>
+
+  <div class="row">
+
+    <div class="col-sm-4 col-sm-push-8 free">
+      <% free.forEach(function (room) { %>
+        <div class="room <%= classAttrs(room) %>">
+          <span class="name"><%= room.name %></span>
+          <div class="fb"><%= nextFb(room) %></div>
+        </div>
+      <% }); %>
+    </div>
+
+    <div class="col-sm-4 almostFree">
+      <% almostFree.forEach(function (room) { %>
+        <div class="room <%= classAttrs(room) %>">
+          <span class="name"><%= room.name %></span>
+          <div class="fb"><%= nextFb(room) %></div>
+        </div>
+      <% }); %>
+    </div>
+
+    <div class="col-sm-4 col-sm-pull-8 busy">
+      <% reallyBusy.forEach(function (room) { %>
+        <div class="room <%= classAttrs(room) %>">
+          <span class="name"><%= room.name %></span>
+          <span class="fb pull-right"><%= nextFb(room) %></span>
+        </div>
+      <% }); %>
+    </div>
+
+  </div>
+
+  </div>
+</body>
+</html>

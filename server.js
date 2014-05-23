@@ -45,22 +45,22 @@ var ics = 'https://mail.mozilla.com/home/%s/Calendar?fmt=ifb&date=%s';
 
 // room names and ids for all the Mozilla YYZ conference rooms
 var rooms = [
-  { name : 'King', id : '5a', neighborhood : 'south', vidyo : false, size : 'small' },
-  { name : 'Queen', id : '5b', neighborhood : 'south', vidyo : false, size : 'small' },
-  { name : 'Dundas', id : '5c', neighborhood : 'south', vidyo : false, size : 'small' },
-  { name : 'Don Mills', id : '5d', neighborhood : 'northeast', vidyo : false, size : 'medium' },
-  { name : 'Finch', id : '5e', neighborhood : 'northeast', vidyo : true, size : 'large' },
-  { name : 'Sheppard', id : '5f', neighborhood : 'northeast', vidyo : false, size : 'large' },
-  { name : 'Eglinton', id : '5g', neighborhood : 'northeast', vidyo : false, size : 'large' },
-  { name : 'Kennedy', id : '5h', neighborhood : 'northeast', vidyo : false, size : 'small' },
-  { name : 'Pape', id : '5i', neighborhood : 'northeast', vidyo : false, size : 'small' },
-  { name : 'Broadview', id : '5j', neighborhood : 'central', vidyo : false, size : 'small' },
-  { name : 'Castle Frank', id : '5k', neighborhood : 'central', vidyo : false, size : 'small' },
-  { name : 'Museum', id : '5l', neighborhood : 'west', vidyo : false, size : 'small' },
-  { name : 'St. George', id : '5m', neighborhood : 'west', vidyo : false, size : 'small' },
-  { name : 'Spadina', id : '5n', neighborhood : 'west', vidyo : true, size : 'medium' },
-  { name : 'High Park', id : '5o', neighborhood : 'west', vidyo : true, size : 'medium' },
-  { name : 'Kipling', id : '5p', neighborhood : 'west', vidyo : true, size : 'large' },
+  { name: 'King', id: '5a', classname: 'king', neighborhood: 'south', vidyo: false, size: 'small' },
+  { name: 'Queen', id: '5b', classname: 'queen', neighborhood: 'south', vidyo: false, size: 'small' },
+  { name: 'Dundas', id: '5c', classname: 'dundas', neighborhood: 'south', vidyo: false, size: 'small' },
+  { name: 'Don Mills', id: '5d', classname: 'donMills', neighborhood: 'northeast', vidyo: false, size: 'medium' },
+  { name: 'Finch', id: '5e', classname: 'finch', neighborhood: 'northeast', vidyo: true, size: 'large' },
+  { name: 'Sheppard', id: '5f', classname: 'sheppard', neighborhood: 'northeast', vidyo: false, size: 'large' },
+  { name: 'Eglinton', id: '5g', classname: 'eglinton', neighborhood: 'northeast', vidyo: false, size: 'large' },
+  { name: 'Kennedy', id: '5h', classname: 'kennedy', neighborhood: 'northeast', vidyo: false, size: 'small' },
+  { name: 'Pape', id: '5i', classname: 'pape', neighborhood: 'northeast', vidyo: false, size: 'small' },
+  { name: 'Broadview', id: '5j', classname: 'broadview', neighborhood: 'central', vidyo: false, size: 'small' },
+  { name: 'Castle Frank', id: '5k', classname: 'castleFrank', neighborhood: 'central', vidyo: false, size: 'small' },
+  { name: 'Museum', id: '5l', classname: 'museum', neighborhood: 'west', vidyo: false, size: 'small' },
+  { name: 'St. George', id: '5m', classname: 'stGeorge', neighborhood: 'west', vidyo: false, size: 'small' },
+  { name: 'Spadina', id: '5n', classname: 'spadina', neighborhood: 'west', vidyo: true, size: 'medium' },
+  { name: 'High Park', id: '5o', classname: 'highPark', neighborhood: 'west', vidyo: true, size: 'medium' },
+  { name: 'Kipling', id: '5p', classname: 'kipling', neighborhood: 'west', vidyo: true, size: 'large' },
 ].map(function(i) { i.freebusy = []; return i;});
 
 // util function to convert a Mozilla room id into a YYZ

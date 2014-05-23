@@ -1,9 +1,11 @@
 @import url("bootstrap.min.css");
 
+
 /* for small screens drop the sizes and margins */
 @media (max-width: 768px) {
   h2 {
     margin: 16px 0;
+
     font-size: smaller;
   }
 }
@@ -43,4 +45,44 @@ h2 {
 }
 
 .room .fb {
+}
+
+#map {
+  margin: 0px auto;
+}
+
+
+/* SVG classes. */
+
+.roomImage {
+  fill: #292529;
+}
+
+.roomImage.unknown {
+  fill: #FF0000;
+}
+
+.station {
+  fill: #666666;
+  stroke: #000101;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-miterlimit: 10;
+}
+
+.station.unknown {
+  fill: #FF0000;
+}
+
+.station.free {
+  fill: #66FF33;
+}
+
+.station.almostFree {
+  fill: #FFFFFF;
+}
+
+.station.reallyBusy {
+  fill: #FF3366;
 }
