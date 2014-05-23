@@ -181,6 +181,15 @@ app.get('/', function(req, res){
   });
 });
 
+app.get('/list', function(req, res){
+  res.render('list', {
+    rooms: rooms,
+    busy: busy(rooms),
+    free: free(rooms),
+    title: 'YYZ Conference Rooms'
+  });
+});
+
 var server = app.listen(Number(process.env.PORT || 5000), function() {
   getFreeBusy();
   console.log('NODE_ENV=%s http://%s:%d', app.settings.env, server.address().address, server.address().port);
