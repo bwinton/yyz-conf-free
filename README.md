@@ -1,9 +1,9 @@
-yvr-conf-free
+yyz-conf-free
 =============
 
-A node.js server that gathers the Mozilla YVR conference room FreeBusy information in an effort to display the conference rooms that are currently available for use. You can see a working example at:
+A node.js server that gathers the Mozilla YYZ conference room FreeBusy information in an effort to display the conference rooms that are currently available for use. You can see a working example at:
 
-* http://yvr-conf-free.paas.allizom.org/
+* http://yyz-conf-free.paas.allizom.org/
 
 Getting Started
 =============
@@ -28,20 +28,12 @@ Endpoints and API
 Screenshot
 =============
 
-http://f.cl.ly/items/0F3C3i0g1l2p0U0e2v06/yvr-conf-free.png
+http://f.cl.ly/items/0F3C3i0g1l2p0U0e2v06/yyz-conf-free.png
 
-YVR Supported Conference Rooms
+YYZ Supported Conference Rooms
 =============
 
-* Siwash : yvr-2a
-* Buntzen : yvr-2b
-* Deep Cove : yvr-2c
-* Lighthouse : yvr-2d
-* Crazy Raven : yvr-2e
-* Wreck : yvr-2f
-* Dinky Peak : yvr-2g
-* Adanac : yvr-2h
-* Whytecliff : yvr-commons
+* Kipling : tor-5p
 
 Zimbra ICS Calendar URL Format:
 

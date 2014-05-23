@@ -43,23 +43,14 @@ moment.lang('en', {
 // thanks to this: http://www.zimbra.com/forums/users/16877-only-publish-free-busy-information-icalendar.html#post88423
 var ics = "https://mail.mozilla.com/home/%s/Calendar?fmt=ifb&date=%s";
 
-// room names and ids for all the Mozilla YVR conference rooms
-var rooms = [ { name : "Siwash", id : "2a", neighborhood : "west", vidyo : true, size : "medium" },
-              { name : "Buntzen", id : "2b", neighborhood : "west", vidyo : false, size : "small" },
-              { name : "Deep Cove", id : "2c", neighborhood : "west", vidyo : true, size : "medium" },
-              { name : "Crazy Raven", id : "2e", neighborhood : "west", vidyo : true, size : "medium" },
-              { name : "Lighthouse", id : "2d", neighborhood : "east", vidyo : false, size : "small" },
-              { name : "Wreck", id : "2f", neighborhood : "east", vidyo : false, size : "small" },
-              { name : "Dinky Peak", id : "2g", neighborhood : "east", vidyo : false, size : "small" },
-              { name : "Adanac", id : "2h", neighborhood : "east", vidyo : false, size : "small" },
-              // not sure I should be including this one
-              { name : "Whytecliff", id : "commons", neighborhood : "central", vidyo : true, size : "large" }
+// room names and ids for all the Mozilla YYZ conference rooms
+var rooms = [ { name : "Kipling", id : "5p", neighborhood : "northwest", vidyo : true, size : "medium" },
             ].map(function(i) { i.freebusy = []; return i;});
 
-// util function to convert a Mozilla room id into a YVR
+// util function to convert a Mozilla room id into a YYZ
 // @mozilla email address.  Means less repeated info and perhaps less spam
-function atMozYVR(id) {
-  return "yvr-" + id + "@mozilla.com";
+function atMozYYZ(id) {
+  return "tor-" + id + "@mozilla.com";
 }
 
 function getFreeBusy() {
@@ -69,7 +60,7 @@ function getFreeBusy() {
 
   rooms.forEach(function (room) {
 
-    var url = format(ics, atMozYVR(room.id), now.format("YYYYMMDD"));
+    var url = format(ics, atMozYYZ(room.id), now.format("YYYYMMDD"));
 
     ical.fromURL(url, {},
       function(err, data) {
@@ -170,7 +161,7 @@ app.get('/', function(req, res){
     rooms: rooms,
     busy: busy(rooms),
     free: free(rooms),
-    title: "YVR Conference Rooms"
+    title: "YYZ Conference Rooms"
   });
 });
 
