@@ -5,7 +5,7 @@
 
 /* jshint strict: true, node: true */
 
-"use strict";
+'use strict';
 
 // https://www.npmjs.org/package/ical
 var ical = require('ical');
@@ -22,45 +22,45 @@ var BUSY_FUZZ = 15;
 
 moment.lang('en', {
     relativeTime : {
-        future: "in %s",
-        past:   "%s ago",
-        s:  "a jiff",
-        m:  "%dm",
-        mm: "%dm",
-        h:  "%dh",
-        hh: "%dh",
-        d:  "a day",
-        dd: "%d days",
-        M:  "a month",
-        MM: "%d months",
-        y:  "a year",
-        yy: "%d years"
+        future: 'in %s',
+        past:   '%s ago',
+        s:  'a jiff',
+        m:  '%dm',
+        mm: '%dm',
+        h:  '%dh',
+        hh: '%dh',
+        d:  'a day',
+        dd: '%d days',
+        M:  'a month',
+        MM: '%d months',
+        y:  'a year',
+        yy: '%d years'
     }
 });
 
 
 // ICS calendar URL format, first %s requires email, second %s requires date in 20140516 format
 // thanks to this: http://www.zimbra.com/forums/users/16877-only-publish-free-busy-information-icalendar.html#post88423
-var ics = "https://mail.mozilla.com/home/%s/Calendar?fmt=ifb&date=%s";
+var ics = 'https://mail.mozilla.com/home/%s/Calendar?fmt=ifb&date=%s';
 
 // room names and ids for all the Mozilla YYZ conference rooms
-var rooms = [ { name : "Kipling", id : "5p", neighborhood : "northwest", vidyo : true, size : "medium" },
+var rooms = [ { name : 'Kipling', id : '5p', neighborhood : 'northwest', vidyo : true, size : 'medium' },
             ].map(function(i) { i.freebusy = []; return i;});
 
 // util function to convert a Mozilla room id into a YYZ
 // @mozilla email address.  Means less repeated info and perhaps less spam
 function atMozYYZ(id) {
-  return "tor-" + id + "@mozilla.com";
+  return 'tor-' + id + '@mozilla.com';
 }
 
 function getFreeBusy() {
   var now = moment();
 
-  console.log("getFreeBusy", now.format('h:mma'));
+  console.log('getFreeBusy', now.format('h:mma'));
 
   rooms.forEach(function (room) {
 
-    var url = format(ics, atMozYYZ(room.id), now.format("YYYYMMDD"));
+    var url = format(ics, atMozYYZ(room.id), now.format('YYYYMMDD'));
 
     ical.fromURL(url, {},
       function(err, data) {
@@ -78,7 +78,7 @@ function getFreeBusy() {
         for (var k in data){
           if (data.hasOwnProperty(k)){
             var ev = data[k];
-            if (ev.type && ev.type === "VFREEBUSY" && typeof ev.freebusy !== "undefined") {
+            if (ev.type && ev.type === 'VFREEBUSY' && typeof ev.freebusy !== 'undefined') {
               room.freebusy = ev.freebusy.filter(today);
             } else {
               room.freebusy = [];
@@ -93,7 +93,7 @@ function getFreeBusy() {
 
   // add CALENDAR_INTERVAL min or the remainder of CALENDAR_INTERVAL min
   now.add('minutes', (CALENDAR_INTERVAL - (now.minutes() % CALENDAR_INTERVAL)));
-  console.log("next run", now.fromNow());
+  console.log('next run', now.fromNow());
 
   // run every CALENDAR_INTERVAL min on the CALENDAR_INTERVAL
   // use the diff against the current time for milliseconds
@@ -107,8 +107,8 @@ function busy(rs) {
   return rs.filter(function (room) {
     return room.freebusy && room.freebusy.some(function (fb) {
       var fuzzStart = moment(fb.start).subtract('minutes', BUSY_FUZZ);
-      // console.log(room.name, "busy", fuzzStart.fromNow(), "and free again", moment(fb.end).fromNow());
-      return fb.type === "BUSY" && now.isAfter(fuzzStart) && now.isBefore(fb.end);
+      // console.log(room.name, 'busy', fuzzStart.fromNow(), 'and free again', moment(fb.end).fromNow());
+      return fb.type === 'BUSY' && now.isAfter(fuzzStart) && now.isBefore(fb.end);
     });
   });
 }
@@ -118,7 +118,7 @@ function free(rs) {
   return rs.filter(function (room) {
     return room.freebusy && room.freebusy.every(function (fb) {
       var fuzzStart = moment(fb.start).subtract('minutes', BUSY_FUZZ);
-      var isFree = (fb.type === "FREE" && now.isAfter(fuzzStart) && now.isBefore(fb.end));
+      var isFree = (fb.type === 'FREE' && now.isAfter(fuzzStart) && now.isBefore(fb.end));
       var isNotNow = !(now.isAfter(fb.start) && now.isBefore(fb.end));
       return (isFree || isNotNow);
     });
@@ -133,15 +133,15 @@ app.use(express.static(__dirname + '/public'));
 
 // JSON API
 
-app.get('/api/rooms', function(req, res, next){
+app.get('/api/rooms', function(req, res){
   res.send(rooms);
 });
 
-app.get('/api/rooms/free', function(req, res, next){
+app.get('/api/rooms/free', function(req, res){
   res.send(free(rooms));
 });
 
-app.get('/api/rooms/busy', function(req, res, next){
+app.get('/api/rooms/busy', function(req, res){
   res.send(busy(rooms));
 });
 
@@ -150,7 +150,7 @@ app.get('/api/rooms/busy', function(req, res, next){
 // expose moment to ejs
 app.locals.moment = function(date) {
   return moment(date);
-}
+};
 
 app.engine('.html', require('ejs').__express);
 app.set('views', __dirname + '/views');
@@ -161,7 +161,7 @@ app.get('/', function(req, res){
     rooms: rooms,
     busy: busy(rooms),
     free: free(rooms),
-    title: "YYZ Conference Rooms"
+    title: 'YYZ Conference Rooms'
   });
 });
 
