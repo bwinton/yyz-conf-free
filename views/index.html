@@ -49,7 +49,7 @@ if (!Array.prototype.find) {
         var m = moment(d);
         /* if more than 1 hour use the time */
         if (m.diff(moment()) > 60 * 60 * 1000) {
-          return " at " + m.format('h:mma');
+          return "at " + m.format('h:mma');
         }
         return m.fromNow();
       }
@@ -79,7 +79,8 @@ if (!Array.prototype.find) {
         if (fb) {
           if (now.isAfter(fb.start) && now.isBefore(fb.end)) {
             return "free " + timeOrFromNow(fb.end);
-          } else if (now.isBefore(fb.end)) {
+          }
+          if (now.isBefore(fb.end)) {
             return "busy " + timeOrFromNow(fb.end);
           }
         }
