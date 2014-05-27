@@ -1,23 +1,5 @@
 @import url("bootstrap.min.css");
 
-
-/* for small screens drop the sizes and margins */
-@media (max-width: 768px) {
-  h2 {
-    margin: 16px 0;
-
-    font-size: smaller;
-  }
-}
-
-/* for large screens increase padding and font sizes */
-@media (min-width: 992px) {
-  body {
-    padding: 48px;
-    font-size: 24px;
-  }
-}
-
 body {
   font-family: Clear Sans, Arial, sans-serif;
   color: #fff;
@@ -47,16 +29,20 @@ h2 {
 .room .fb {
 }
 
-#map {
-  margin: 0px auto;
-  height: 80vh;
-  width: 95vw;
-}
-
-
 /* SVG classes. */
 
+#map {
+  margin: 0px auto;
+  height: 85vh;
+  width: 90vw;
+}
+
+#innerMap {
+  transform: translate(0px, -150px);
+}
+
 .roomImage {
+  transition: fill 1s;
   fill: #292529;
 }
 
@@ -64,7 +50,13 @@ h2 {
   fill: #FF0000;
 }
 
+.roomImage.selected {
+  fill: #666666;
+}
+
+.builtinStation,
 .station {
+  transition: fill 3s;
   fill: #666666;
   stroke: #000101;
   stroke-width: 3;
@@ -73,6 +65,7 @@ h2 {
   stroke-miterlimit: 10;
 }
 
+.builtinStation.unknown,
 .station.unknown {
   fill: #FF0000;
 }

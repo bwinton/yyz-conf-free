@@ -8,7 +8,7 @@ strict:true, undef:true, unused:true, curly:true, browser:true, white:true,
 moz:true, esnext:false, indent:2, maxerr:50, devel:true, node:true, boss:true,
 globalstrict:true, nomen:false, newcap:false */
 
-/*global d3:false, moment:false */
+/*global d3:false, moment:false, _:false */
 
 'use strict';
 
@@ -33,6 +33,10 @@ var stationLocs = {
 };
 
 function draw(data) {
+  if (!data) {
+    data = [];
+  }
+
   var circles = d3.select('#stationCircles');
   circles.selectAll('.station')
   .data(data).enter().append('circle').attr({
@@ -49,12 +53,24 @@ function draw(data) {
     'r': function (room) {
       return stationLocs[room.classname].r;
     }
+  }).on('mouseover', function () {
+    var room = d3.select(this).data()[0].classname;
+    d3.selectAll('.roomImage')
+      .classed('selected', function () {
+        return _.contains(this.classList, room);
+      });
+  }).on('mouseout', function () {
+    d3.selectAll('.roomImage').classed('selected', false);
   });
-  update(data);
+  setTimeout(function () {
+    update(data);
+  }, 500);
 }
 
 function update(data) {
-  console.log(data);
+  if (!data) {
+    data = [];
+  }
 
   var now = moment();
   var BUSY_FUZZ = 15;
