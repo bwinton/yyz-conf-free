@@ -29,39 +29,90 @@ var stationLocs = {
   'spadina': {'cx': '143.136', 'cy': '287.982', 'r': '5.675'},
   'highPark': {'cx': '114.214', 'cy': '287.982', 'r': '5.675'},
   'kipling': {'cx': '85.585', 'cy': '287.982', 'r': '5.675'},
-  'osgoode': {'cx': '172.341', 'cy': '345.659', 'r': '5.67'}
+  'commons': {'cx': '172.341', 'cy': '345.659', 'r': '5.67'},
+  'mozspace': {'cx': '172.578', 'cy': '425.074', 'r': '5.67'}
 };
+
+var classes = ['unknown', 'free', 'almostFree', 'reallyBusy'];
 
 function draw(data) {
   if (!data) {
     data = [];
   }
 
-  var circles = d3.select('#stationCircles');
-  circles.selectAll('.station')
-  .data(data).enter().append('circle').attr({
-    'title': 'unknown',
-    'class': function (room) {
-      return 'station ' + room.classname;
-    },
-    'cx': function (room) {
-      return stationLocs[room.classname].cx;
-    },
-    'cy': function (room) {
-      return stationLocs[room.classname].cy;
-    },
-    'r': function (room) {
-      return stationLocs[room.classname].r;
-    }
-  }).on('mouseover', function () {
-    var room = d3.select(this).data()[0].classname;
-    d3.selectAll('.roomImage')
-      .classed('selected', function () {
-        return _.contains(this.classList, room);
-      });
-  }).on('mouseout', function () {
-    d3.selectAll('.roomImage').classed('selected', false);
-  });
+  d3.select('#stationCircles').selectAll('.station')
+    .data(data).enter().append('circle').attr({
+      'title': 'unknown',
+      'class': function (room) {
+        return 'station ' + room.classname;
+      },
+      'cx': function (room) {
+        return stationLocs[room.classname].cx;
+      },
+      'cy': function (room) {
+        return stationLocs[room.classname].cy;
+      },
+      'r': function (room) {
+        return stationLocs[room.classname].r;
+      }
+    });
+
+  d3.selectAll('.station, .builtinStation')
+    .on('mouseover', function () {
+      var self = this;
+      var roomData = d3.select(this).data()[0];
+
+      var room = '';
+      if (roomData) {
+        room = roomData.classname;
+      } else {
+        room = this.classList[1];
+      }
+
+      d3.selectAll('.roomImage')
+        .classed('unknown', false)
+        .classed('free', false)
+        .classed('almostFree', false)
+        .classed('reallyBusy', false);
+
+      d3.selectAll('.roomImage.' + room)
+        .classed('unknown', function () {
+          return _.contains(self.classList, 'unknown');
+        }).classed('free', function () {
+          return _.contains(self.classList, 'free');
+        }).classed('almostFree', function () {
+          return _.contains(self.classList, 'almostFree');
+        }).classed('reallyBusy', function () {
+          return _.contains(self.classList, 'reallyBusy');
+        }).classed('selected', function () {
+          console.log(!_.some(self.classList, function (c) {
+            return _.contains(classes, c);
+          }));
+          return !_.some(self.classList, function (c) {
+            console.log(c);
+            return _.contains(classes, c);
+          });
+        });
+    }).on('mouseout', function () {
+      d3.selectAll('.roomImage')
+        .classed('unknown', false)
+        .classed('free', false)
+        .classed('almostFree', false)
+        .classed('reallyBusy', false)
+        .classed('selected', false);
+    });
+
+  d3.selectAll('.roomImage')
+    .on('mouseover', function () {
+      var self = this;
+      d3.selectAll('.roomImage')
+        .classed('selected', function () {
+          return this === self;
+        });
+    }).on('mouseout', function () {
+      d3.selectAll('.roomImage').classed('selected', false);
+    });
+
   setTimeout(function () {
     update(data);
   }, 500);
@@ -138,46 +189,3 @@ setInterval(function () {
     update(data);
   });
 }, 60000);
-
-/*
-
-function classAttrs(room) {
-  var vidyo = (room.vidyo)? 'vidyo' : '';
-  return [vidyo, room.neighborhood, room.size].map(function (r) { return (r)? r+'-room' : r;}).join(' ');
-}
-
-var busyNow = function (fb) { return now.isAfter(fb.start) && now.isBefore(fb.end); };
-
-
-
-var station = function (room) {
-  var stationLoc = stationLocs[room.classname];
-  var title = nextFb(room);
-  if (title === '') {
-    title = 'free';
-  }
-  return {
-    'class': 'station ' + room.classname,
-    'title': title,
-    'loc': stationLoc
-  };
-}
-
-
-<% free.forEach(function (room) { 
-  stationInfo = station(room); %>
-  <circle class='<%= stationInfo.class %> free' title='<%= stationInfo.title %>'
-    <%= stationInfo.loc %> />
-<% }); %>
-<% almostFree.forEach(function (room) { 
-  stationInfo = station(room); %>
-  <circle class='<%= stationInfo.class %> almostFree' title='<%= stationInfo.title %>'
-    <%= stationInfo.loc %> />
-<% }); %>
-<% reallyBusy.forEach(function (room) {
-  stationInfo = station(room); %>
-  <circle class="<%= stationInfo.class %> reallyBusy" title="<%= stationInfo.title %>"
-    <%= stationInfo.loc %> />
-<% }); %>
-
-*/

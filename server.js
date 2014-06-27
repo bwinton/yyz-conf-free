@@ -61,6 +61,8 @@ var rooms = [
   { name: 'Spadina', id: '5n', classname: 'spadina', neighborhood: 'west', vidyo: true, size: 'medium' },
   { name: 'High Park', id: '5o', classname: 'highPark', neighborhood: 'west', vidyo: true, size: 'medium' },
   { name: 'Kipling', id: '5p', classname: 'kipling', neighborhood: 'west', vidyo: true, size: 'large' },
+  { name: 'Osgoode', id: 'commons', classname: 'commons', neighborhood: 'southwest', vidyo: true, size: 'x-large' },
+  { name: 'Union', id: 'mozspace', classname: 'mozspace', neighborhood: 'southwest', vidyo: false, size: 'x-large' },
 ].map(function(i) { i.freebusy = []; return i;});
 
 // util function to convert a Mozilla room id into a YYZ
