@@ -18,7 +18,7 @@ h2 {
   background-color: #323232;
 }
 .almostFree .room {
-  background-color: #EBC300;
+  background-color: #F7CE39;
   padding: 24px 16px;
 }
 .free .room {
@@ -41,19 +41,6 @@ h2 {
   transform: translate(0px, -150px);
 }
 
-.roomImage {
-  transition: fill 1s;
-  fill: #292529;
-}
-
-.roomImage.unknown {
-  fill: #FF0000;
-}
-
-.roomImage.selected {
-  fill: #666666;
-}
-
 .builtinStation,
 .station {
   transition: fill 3s;
@@ -66,18 +53,31 @@ h2 {
 }
 
 .builtinStation.unknown,
-.station.unknown {
+.station.unknown,
+.roomImage.unknown {
   fill: #FF0000;
 }
 
-.station.free {
+.station.free,
+.roomImage.free {
   fill: #66FF33;
 }
 
-.station.almostFree {
-  fill: #FFFFFF;
+.station.almostFree,
+.roomImage.almostFree {
+  fill: #f4f922;
 }
 
-.station.reallyBusy {
-  fill: #FF3366;
+.station.reallyBusy,
+.roomImage.reallyBusy {
+  fill: #FF306A;
+}
+
+.roomImage {
+  transition: fill 1s;
+  fill: #292529;
+}
+
+.roomImage.selected {
+  fill: #666666;
 }
