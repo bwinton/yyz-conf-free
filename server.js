@@ -188,7 +188,7 @@ app.get('/list', function(req, res){
     rooms: rooms,
     busy: busy(rooms),
     free: free(rooms),
-    title: 'YYZ Conference Rooms'
+    title: 'Toronto (YYZ) Meeting/Conference Rooms'
   });
 });
 
